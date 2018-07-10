@@ -14,7 +14,8 @@ export default class Chart extends Component {
 			data: [],
 			gridData: {},
 			year: '',
-			product: ''
+			product: '',
+			show: false,
 		}
 	}
 	componentWillReceiveProps(nextProps) {
@@ -23,7 +24,17 @@ export default class Chart extends Component {
 		labels.forEach(product => data.push(nextProps.data[product].reduce((acc, curr) => {
 			return acc + curr.revenue;
 		}, 0)));
-		this.setState({ labels, data });
+		this.setState({ 
+			labels,
+			data,
+			show: false,
+		});
+	}
+	updateChartViaGrid(newValues, product) {
+		const dataCopy = this.state.data;
+		const sum = newValues.reduce((acc, curr) => acc + curr, 0) * 1000000;
+		dataCopy[this.state.labels.indexOf(product)] = sum;
+		this.setState({ data: dataCopy });
 	}
 
 	render() {
@@ -45,7 +56,7 @@ export default class Chart extends Component {
 								let year = this.props.selection;
 								let product = this.state.labels[item[0]._index];
 								(this.props.data[this.state.labels[item[0]._index]]).forEach(item => this.props.classify(gridData, [item.country], 'object', item));
-								this.setState({ gridData, year, product });
+								this.setState({ gridData, year, product, show: true });
 							}
 						},
 						animation: {
@@ -63,7 +74,7 @@ export default class Chart extends Component {
 						},
 					}}
 				/>
-				<Grid gridData={this.state.gridData} year={this.state.year} product={this.state.product} />
+				<Grid gridData={this.state.gridData} year={this.state.year} product={this.state.product} show={this.state.show} updateChart={this.updateChartViaGrid.bind(this)} />
       </div>
     );
   }
