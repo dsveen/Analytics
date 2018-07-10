@@ -13,7 +13,15 @@ app.use(express.static('build'))
   })
   .get('/api', (req, res) => {
     request('http://aware-ui-test1.s3.amazonaws.com/sample_data.json.txt.gz', { encoding: null }, (err, response, body) => {
-      zlib.gunzip(body, (error, dezipped) => res.send(dezipped.toString()));
+      if(err) {
+        throw('Error in fetching request');
+      }
+      zlib.gunzip(body, (error, dezipped) => {
+        if (error) {
+          throw('Error in dezipping file');
+        }
+        res.send(dezipped.toString());
+      });
     });
   });
 
