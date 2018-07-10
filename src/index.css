@@ -3,5 +3,58 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+h4 {
+  text-align: center;
+}
 
+/* Table */
+table {
+  border-spacing: 0;
+  margin: auto;
+  border: 3px solid black;
+  border-right: none;
+} 
+th {
+  background-color:#D3D3D3;
+  font-weight: normal;
+}
+tr:nth-child(even) {
+  background-color: #F0F8FF;
+}
+.tableInput {
+  width: 60px;
+}
+td, th {
+  border-right: 3px solid black;
+}
 
+/* Component Layouts */
+.App {
+  display: flex;
+}
+.dropdownWrapper {
+  flex: 1;
+  text-align: center;
+}
+.dataContainer {
+  display: flex;
+  flex: 9;
+}
+.chartWrapper {
+  flex: 1;
+}
+.gridWrapper {
+  flex: 1;
+}
+.submit {
+  display: none;
+}
+
+@media screen and (max-width: 500px) {
+  .App {
+    display: block;
+  }  
+  .dataContainer {
+    display: block;
+  }
+}
